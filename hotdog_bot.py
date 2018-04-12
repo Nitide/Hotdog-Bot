@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
 import config
 import os
 import praw
@@ -13,14 +16,14 @@ def bot_login():
 	return r
 
 def run_bot(r, comments_replied_to):
-	for comment in r.subreddit('all').comments(limit = None):
-		if "hotdog" in comment.body.lower() and comment.id not in comments_replied_to and comment.author != r.user.me():
+	for comment in r.subreddit("all").comments(limit = None):
+		if "hotdog" in comment.body.lower() and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.subreddit != "AskReddit":
 			comment.reply("You put \"hotdog\", did you mean open-faced sausage sandwich? 🌭 \n***\n^I'm ^a ^bot *^bleep, ^bloop*")
 			comments_replied_to.append(comment.id)
 
 			with open("comments_replied_to.txt", "a") as f:
 				f.write(comment.id + "\n")
-				time.sleep(600)
+				#time.sleep(600)
 
 def get_saved_comments():
 	if not os.path.isfile("comments_replied_to.txt"):
