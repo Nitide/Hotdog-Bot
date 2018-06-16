@@ -17,13 +17,12 @@ def bot_login():
 
 def run_bot(r, comments_replied_to):
 	for comment in r.subreddit("all").comments(limit = None):
-		if "hotdog" in comment.body.lower() and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.subreddit != "AskReddit":
+		if "hotdog" in comment.body.lower() and comment.id not in comments_replied_to and comment.author != r.user.me():
 			comment.reply("You put \"hotdog\", did you mean open-faced sausage sandwich? 🌭 \n***\n^I'm ^a ^bot *^bleep, ^bloop*")
 			comments_replied_to.append(comment.id)
 
 			with open("comments_replied_to.txt", "a") as f:
 				f.write(comment.id + "\n")
-				#time.sleep(600)
 
 def get_saved_comments():
 	if not os.path.isfile("comments_replied_to.txt"):
@@ -40,4 +39,7 @@ r = bot_login()
 comments_replied_to = get_saved_comments()
 
 while True:
-	run_bot(r, comments_replied_to)
+	try:
+		run_bot(r, comments_replied_to)
+	except Exception:
+		continue
