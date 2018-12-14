@@ -8,4 +8,4 @@ The bot has received Reddit gold twice. ("gifts on your behalf have helped pay f
 
 Limitations: 
 * The bot cannot respond back on a subreddit it's banned from
-* hotdog_bot is shadowbanned
+* hotdog_bot is now shadowbanned
