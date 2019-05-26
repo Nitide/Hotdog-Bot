@@ -18,6 +18,7 @@ def bot_login():
 def run_bot(r, comments_replied_to):
 	for comment in r.subreddit("all").comments(limit = None):
 		if "hotdog" in comment.body.lower() and comment.id not in comments_replied_to and comment.author != r.user.me() and "bot" not in comment.author.name.lower():
+			comment.downvote()
 			comment.reply("You put \"hotdog\", did you mean open-faced sausage sandwich? 🌭 \n***\n^I'm ^a ^bot *^bleep, ^bloop*")
 			comments_replied_to.append(comment.id)
 
@@ -34,12 +35,22 @@ def get_saved_comments():
 			comments_replied_to = list(filter(None, comments_replied_to))
 
 	return comments_replied_to
+	
+def delete_negative_comments(comments):
+	for comment in comments:
+		if comment.score < 1:
+			comment.delete()
+			print("removed")
 
 r = bot_login()
 comments_replied_to = get_saved_comments()
 
 while True:
 	try:
-		run_bot(r, comments_replied_to)
-	except Exception:
+		bot_comments = reddit.user.me().comments.new(limit = None)
+		delete_negative_comments(bot_comments)
+		run_bot(reddit, comments_replied_to)
+
+	except Exception as e:
+		print(e)
 		continue
