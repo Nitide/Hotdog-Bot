@@ -17,7 +17,7 @@ def bot_login():
 
 def run_bot(r, comments_replied_to):
 	for comment in r.subreddit("all").comments(limit = None):
-		if "hotdog" in comment.body.lower() and comment.id not in comments_replied_to and comment.author != r.user.me() and comment.author != "GoodBot_BadBot":
+		if "hotdog" in comment.body.lower() and comment.id not in comments_replied_to and comment.author != r.user.me() and "bot" not in comment.author.name.lower():
 			comment.reply("You put \"hotdog\", did you mean open-faced sausage sandwich? 🌭 \n***\n^I'm ^a ^bot *^bleep, ^bloop*")
 			comments_replied_to.append(comment.id)
 
